@@ -359,8 +359,7 @@ def main():
     global CENTER
     CENTER = pygame.math.Vector2(screen_rect.center)
 
-    # Use a stable system font for HUD counters to keep sizing readable in packaged builds.
-    font_score = pygame.font.SysFont(None, 36, bold=True)
+    font_score = get_font(32)
     score = 0
     game_start_time = 0
     last_second_score = 0

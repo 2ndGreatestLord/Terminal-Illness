@@ -15,14 +15,13 @@ def get_font(size, bold=False):
     key = (size, bold)
     if key not in _font_cache:
         try:
-            # We scale up because the custom font appears smaller than system fonts
-            font = pygame.font.Font(resource_path('sprites/font.otf'), int(size * 1.5))
+            font = pygame.font.Font(resource_path('sprites/font.otf'), int(size))
             if bold:
                 try: font.set_bold(True)
                 except: pass
             _font_cache[key] = font
         except:
-            _font_cache[key] = pygame.font.SysFont(None, size, bold=bold)
+            _font_cache[key] = pygame.font.Font(resource_path('sprites/font.otf'), int(size))
     return _font_cache[key]
 
 class Button(pygame.sprite.Sprite):

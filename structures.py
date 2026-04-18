@@ -68,7 +68,7 @@ class Organ(pygame.sprite.Sprite):
         pygame.draw.rect(surface, (0, 255, 0), (bar_x, bar_y, health_width, bar_height))
 
         # Label
-        font = pygame.font.SysFont(None, 28, bold=True)
+        font = get_font(24)
         text = font.render(f"Organ Health: {self.health}/{self.max_health}", True, (0, 0, 0))
         text_rect = text.get_rect(center=(surface.get_width() // 2, bar_y + bar_height // 2))
         surface.blit(text, text_rect)
