@@ -359,7 +359,8 @@ def main():
     global CENTER
     CENTER = pygame.math.Vector2(screen_rect.center)
 
-    font_score = get_font(32)
+    # Use a stable system font for HUD counters to keep sizing readable in packaged builds.
+    font_score = pygame.font.SysFont(None, 36, bold=True)
     score = 0
     game_start_time = 0
     last_second_score = 0
@@ -763,6 +764,9 @@ def main():
                 music_paused_for_level_up = False
                 level_up_sound_channel = None
                 music_pause_time = 0
+
+        # Clear the internal frame first so alpha backgrounds cannot leave ghost artifacts.
+        screen.fill((0, 0, 0))
 
         if current_state == MAIN_MENU:
             # Pulse the organ quietly in menu background
