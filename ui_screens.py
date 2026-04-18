@@ -1,6 +1,7 @@
 import pygame
 import math
 import os
+from resource_utils import resource_path
 
 
 # Fonts will be initialized after pygame.init() is called
@@ -15,7 +16,7 @@ def get_font(size, bold=False):
     if key not in _font_cache:
         try:
             # We scale up because the custom font appears smaller than system fonts
-            font = pygame.font.Font('sprites/font.otf', int(size * 1.5))
+            font = pygame.font.Font(resource_path('sprites/font.otf'), int(size * 1.5))
             if bold:
                 try: font.set_bold(True)
                 except: pass
@@ -36,7 +37,7 @@ class Button(pygame.sprite.Sprite):
         # Load the base and hover/active textures exactly once
         if Button._base_texture is None:
             try:
-                Button._base_texture = pygame.image.load('sprites/btn_base.png').convert_alpha()
+                Button._base_texture = pygame.image.load(resource_path('sprites/btn_base.png')).convert_alpha()
             except:
                 Button._base_texture = pygame.Surface((width, height), pygame.SRCALPHA)
                 pygame.draw.rect(Button._base_texture, (100, 100, 100), Button._base_texture.get_rect())
@@ -44,7 +45,7 @@ class Button(pygame.sprite.Sprite):
 
         if Button._hover_texture is None:
             try:
-                Button._hover_texture = pygame.image.load('sprites/btn_active.png').convert_alpha()
+                Button._hover_texture = pygame.image.load(resource_path('sprites/btn_active.png')).convert_alpha()
             except:
                 Button._hover_texture = pygame.Surface((width, height), pygame.SRCALPHA)
                 pygame.draw.rect(Button._hover_texture, (150, 150, 150), Button._hover_texture.get_rect())
@@ -96,7 +97,7 @@ class GameInfoState:
         self.mode = mode
         if GameInfoState._bg_image is None:
             try:
-                GameInfoState._bg_image = pygame.image.load('sprites/howtoplaydirectory.png').convert_alpha()
+                GameInfoState._bg_image = pygame.image.load(resource_path('sprites/howtoplaydirectory.png')).convert_alpha()
             except pygame.error:
                 GameInfoState._bg_image = pygame.Surface(screen_rect.size)
                 GameInfoState._bg_image.fill((20, 20, 20))
@@ -112,7 +113,7 @@ class GameInfoState:
         if not GameInfoState._sprites_loaded:
             def load_sprite(path, size=64):
                 try:
-                    img = pygame.image.load(path).convert_alpha()
+                    img = pygame.image.load(resource_path(path)).convert_alpha()
                     return pygame.transform.smoothscale(img, (size, size))
                 except pygame.error:
                     surf = pygame.Surface((size, size), pygame.SRCALPHA)
@@ -345,7 +346,7 @@ class CardSelectionMenu:
 
         if CardSelectionMenu._bg_image is None:
             try:
-                CardSelectionMenu._bg_image = pygame.image.load('sprites/levelup.png').convert_alpha()
+                CardSelectionMenu._bg_image = pygame.image.load(resource_path('sprites/levelup.png')).convert_alpha()
             except pygame.error:
                 CardSelectionMenu._bg_image = pygame.Surface(self.screen_rect.size)
                 CardSelectionMenu._bg_image.fill((0, 0, 0))

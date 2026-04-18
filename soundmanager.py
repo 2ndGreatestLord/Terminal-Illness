@@ -1,7 +1,7 @@
 import pygame
 import time
 from typing import Dict, Optional
-
+from resource_utils import resource_path
 
 class SoundManager(object):
     """
@@ -92,7 +92,7 @@ class SoundManager(object):
             volume: Volume level (0.0 to 1.0)
         """
         try:
-            sound = pygame.mixer.Sound(file_path)
+            sound = pygame.mixer.Sound(resource_path(file_path))
             self.sounds[sound_name] = sound
             self.volume_levels[sound_name] = max(0.0, min(1.0, volume))  # Clamp 0-1
             self.last_played_time[sound_name] = 0.0

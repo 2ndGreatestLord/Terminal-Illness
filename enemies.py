@@ -3,6 +3,7 @@ import pygame
 import math
 from math import inf
 from pickups import Pickup
+from resource_utils import resource_path
 
 # Pathfinding constants
 CELL_SIZE = 20
@@ -102,7 +103,7 @@ class Virus(pygame.sprite.Sprite):
         super().__init__()
         # Load virus sprite
         if not hasattr(Virus, '_base_image'):
-            raw_image = pygame.image.load('sprites/virus.png').convert_alpha()
+            raw_image = pygame.image.load(resource_path('sprites/virus.png')).convert_alpha()
             bbox = raw_image.get_bounding_rect()
             if bbox:
                 Virus._base_image = raw_image.subsurface(bbox).copy()
@@ -173,7 +174,7 @@ class Stalker(Virus):
         self.attack_radius = 0
         if not hasattr(Stalker, '_image_loaded'):
             try:
-                raw_image = pygame.image.load('sprites/stalker.png').convert_alpha()
+                raw_image = pygame.image.load(resource_path('sprites/stalker.png')).convert_alpha()
                 bbox = raw_image.get_bounding_rect()
                 if bbox:
                     stalker_image = raw_image.subsurface(bbox).copy()
@@ -318,7 +319,7 @@ class Tank(Virus):
         # Load tank sprite if available
         if not hasattr(Tank, '_image_loaded'):
             try:
-                raw_image = pygame.image.load('sprites/tank.png').convert_alpha()
+                raw_image = pygame.image.load(resource_path('sprites/tank.png')).convert_alpha()
                 bbox = raw_image.get_bounding_rect()
                 if bbox:
                     Tank._base_image = raw_image.subsurface(bbox).copy()

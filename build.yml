@@ -1,0 +1,7 @@
+- name: Build Executable
+      run: |
+        python -m PyInstaller --noconsole --onefile `
+        --add-data "soundeffects;soundeffects" `
+        --add-data "soundtrack;soundtrack" `
+        --add-data "sprites;sprites" `
+        main.py

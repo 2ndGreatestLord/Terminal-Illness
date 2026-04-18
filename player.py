@@ -1,5 +1,6 @@
 import pygame
 import math
+from resource_utils import resource_path
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, screen_rect):
@@ -36,7 +37,7 @@ class Player(pygame.sprite.Sprite):
         self.base_size = self.size
 
         # Load base player image
-        raw_image = pygame.image.load('sprites/player.png').convert_alpha()
+        raw_image = pygame.image.load(resource_path('sprites/player.png')).convert_alpha()
         bbox = raw_image.get_bounding_rect()
         if bbox: # Crop empty transparent padding to prevent crunched/invisible 16:9 images
             self.base_image = raw_image.subsurface(bbox).copy()

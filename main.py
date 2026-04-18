@@ -7,6 +7,7 @@ except:
 import pygame
 import random
 import math
+from resource_utils import resource_path
 
 VIRTUAL_RES = (1920, 1080)
 global_offset = (0, 0)
@@ -159,7 +160,7 @@ def draw_speed_boost_indicator(surface, player, current_time):
     stacks = getattr(player, 'speed_boost_stacks', 1)
     if not hasattr(draw_speed_boost_indicator, "_speed_icon"):
         try:
-            icon = pygame.image.load('sprites/speed.png').convert_alpha()
+            icon = pygame.image.load(resource_path('sprites/speed.png')).convert_alpha()
             bbox = icon.get_bounding_rect()
             if bbox:
                 icon = icon.subsurface(bbox).copy()
@@ -426,19 +427,19 @@ def main():
     recent_spawn_points = deque(maxlen=10)
 
     # Load and scale background for play stage
-    raw_background = pygame.image.load('sprites/background.png').convert()
+    raw_background = pygame.image.load(resource_path('sprites/background.png')).convert_alpha()
     background = pygame.transform.scale(raw_background, screen_rect.size)
 
     # Load and scale main menu background
-    raw_mainmenu_bg = pygame.image.load('sprites/mainmenu.png').convert()
+    raw_mainmenu_bg = pygame.image.load(resource_path('sprites/mainmenu.png')).convert_alpha()
     mainmenu_bg = pygame.transform.scale(raw_mainmenu_bg, screen_rect.size)
 
     # Load and scale game over background
-    raw_gameover_bg = pygame.image.load('sprites/gameover.png').convert()
+    raw_gameover_bg = pygame.image.load(resource_path('sprites/gameover.png')).convert_alpha()
     gameover_bg = pygame.transform.scale(raw_gameover_bg, screen_rect.size)
 
     # Load main menu logo
-    raw_mainmenu_logo = pygame.image.load('sprites/logo.png').convert_alpha()
+    raw_mainmenu_logo = pygame.image.load(resource_path('sprites/logo.png')).convert_alpha()
     # scale logo initially (25% of screen width)
     target_w = min(int(screen_rect.width * 0.25), raw_mainmenu_logo.get_width())
     target_h = int((target_w / raw_mainmenu_logo.get_width()) * raw_mainmenu_logo.get_height())
@@ -706,7 +707,7 @@ def main():
             if current_music is not None:
                 pygame.mixer.music.fadeout(1000)
             try:
-                pygame.mixer.music.load('soundtrack/howtoplay.mp3')
+                pygame.mixer.music.load(resource_path('soundtrack/howtoplay.mp3'))
                 pygame.mixer.music.play(-1, 0.0, 1000)  # loops=-1, start=0, fade_ms=1000
                 pygame.mixer.music.set_volume(0.5 if not is_muted else 0.0)
             except pygame.error:
@@ -716,7 +717,7 @@ def main():
             if current_music is not None:
                 pygame.mixer.music.fadeout(1000)
             try:
-                pygame.mixer.music.load('soundtrack/menusoundtrack.mp3')
+                pygame.mixer.music.load(resource_path('soundtrack/menusoundtrack.mp3'))
                 pygame.mixer.music.play(-1, 0.0, 1000)  # loops=-1, start=0, fade_ms=1000
                 pygame.mixer.music.set_volume(0.5 if not is_muted else 0.0)
             except pygame.error:
@@ -727,7 +728,7 @@ def main():
             if current_music is not None:
                 pygame.mixer.music.fadeout(1000)
             try:
-                pygame.mixer.music.load('soundtrack/bossmusic.mp3')
+                pygame.mixer.music.load(resource_path('soundtrack/bossmusic.mp3'))
                 pygame.mixer.music.play(-1, 0.0, 1000)  # loops=-1, start=0, fade_ms=1000
                 pygame.mixer.music.set_volume(0.5 if not is_muted else 0.0)
             except pygame.error:
@@ -737,7 +738,7 @@ def main():
             if current_music is not None:
                 pygame.mixer.music.fadeout(1000)
             try:
-                pygame.mixer.music.load('soundtrack/fightsoundtrack.mp3')
+                pygame.mixer.music.load(resource_path('soundtrack/fightsoundtrack.mp3'))
                 pygame.mixer.music.play(-1, 0.0, 1000)  # loops=-1, start=0, fade_ms=1000
                 pygame.mixer.music.set_volume(0.5 if not is_muted else 0.0)
             except pygame.error:
@@ -1258,7 +1259,7 @@ def main():
 
             if not music_switched and elapsed > 1000:
                 try:
-                    pygame.mixer.music.load('soundtrack/gameover.mp3')
+                    pygame.mixer.music.load(resource_path('soundtrack/gameover.mp3'))
                     pygame.mixer.music.play(-1, 30.0, 1000)  # loops=-1, start=30.0, fade_ms=1000
                     pygame.mixer.music.set_volume(0.7)
                     music_switched = True

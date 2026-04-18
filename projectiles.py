@@ -1,10 +1,11 @@
 import pygame
 import math
 from soundmanager import SoundManager
+from resource_utils import resource_path
 
 
 def _load_cropped_image(path):
-    image = pygame.image.load(path).convert_alpha()
+    image = pygame.image.load(resource_path(path)).convert_alpha()
     bbox = image.get_bounding_rect()
     if bbox:
         return image.subsurface(bbox).copy()
@@ -51,7 +52,7 @@ class Antibody(pygame.sprite.Sprite):
 
         # Load and scale antibody image
         if not hasattr(Antibody, '_base_image'):
-            raw_image = pygame.image.load('sprites/playerprojectile.png').convert_alpha()
+            raw_image = pygame.image.load(resource_path('sprites/playerprojectile.png')).convert_alpha()
             bbox = raw_image.get_bounding_rect()
             if bbox:
                 Antibody._base_image = raw_image.subsurface(bbox).copy()
