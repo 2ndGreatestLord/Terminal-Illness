@@ -3,6 +3,7 @@ import math
 import random
 from pickups import Pickup
 from enemies import get_dominant_color
+from resource_utils import resource_path
 
 class BossProjectile(pygame.sprite.Sprite):
     """Projectile fired by the boss during radial blast."""
@@ -15,7 +16,7 @@ class BossProjectile(pygame.sprite.Sprite):
 
         # Load boss projectile image
         if not hasattr(BossProjectile, '_base_image'):
-            raw_image = pygame.image.load('sprites/bossprojectile.png').convert_alpha()
+            raw_image = pygame.image.load(resource_path('sprites/bossprojectile.png')).convert_alpha()
             bbox = raw_image.get_bounding_rect()
             if bbox:
                 BossProjectile._base_image = raw_image.subsurface(bbox).copy()
@@ -57,7 +58,7 @@ class Boss(pygame.sprite.Sprite):
 
         # Load the boss sprite
         if not hasattr(Boss, '_base_image'):
-            raw_image = pygame.image.load('sprites/boss.png').convert_alpha()
+            raw_image = pygame.image.load(resource_path('sprites/boss.png')).convert_alpha()
             Boss._base_image = pygame.transform.smoothscale(raw_image, (240, 240))
 
         self.base_image = Boss._base_image.copy()

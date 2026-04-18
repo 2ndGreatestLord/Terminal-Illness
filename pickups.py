@@ -1,5 +1,6 @@
 import math
 import pygame
+from resource_utils import resource_path
 
 
 class Pickup(pygame.sprite.Sprite):
@@ -16,7 +17,7 @@ class Pickup(pygame.sprite.Sprite):
 
         if self.type_name in sprite_map and self.type_name not in Pickup._base_images:
             try:
-                raw_image = pygame.image.load(sprite_map[self.type_name]).convert_alpha()
+                raw_image = pygame.image.load(resource_path(sprite_map[self.type_name])).convert_alpha()
                 bbox = raw_image.get_bounding_rect()
                 if bbox:
                     raw_image = raw_image.subsurface(bbox).copy()

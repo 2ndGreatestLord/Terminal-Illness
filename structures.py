@@ -1,12 +1,13 @@
 import pygame
 import math
 from ui_screens import get_font
+from resource_utils import resource_path
 
 class Organ(pygame.sprite.Sprite):
     def __init__(self, screen_rect):
         super().__init__()
         # Load organ sprite and scale to 350x350
-        self.base_image = pygame.image.load('sprites/organ-heart.png').convert_alpha()
+        self.base_image = pygame.image.load(resource_path('sprites/organ-heart.png')).convert_alpha()
         self.base_image = pygame.transform.scale(self.base_image, (350, 350))
         self.image = self.base_image.copy()
 
