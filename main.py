@@ -186,6 +186,19 @@ def draw_speed_boost_indicator(surface, player, current_time):
     surface.blit(label, label_rect)
 
 
+def set_display_mode(fullscreen_enabled, display_size=None):
+    """Create a stable display surface for fullscreen/windowed switching."""
+    if fullscreen_enabled:
+        try:
+            return pygame.display.set_mode((0, 0), pygame.FULLSCREEN), True
+        except pygame.error:
+            fullscreen_enabled = False
+
+    if display_size is None:
+        display_size = (1600, 900)
+    return pygame.display.set_mode(display_size, pygame.RESIZABLE), False
+
+
 def fade_out_group(group, current_time, start_time, duration_ms):
     elapsed = current_time - start_time
     alpha = max(0, 255 - int(255 * (elapsed / duration_ms)))
@@ -347,8 +360,11 @@ def main():
 
     pygame.mouse.set_visible(True)
     info = pygame.display.Info()
-    # Initialize the window explicitly to 1920x1080 (the native resolution)
-    display_screen = pygame.display.set_mode((1920, 1080), pygame.RESIZABLE)
+    desktop_sizes = pygame.display.get_desktop_sizes()
+    desktop_size = desktop_sizes[0] if desktop_sizes else (1920, 1080)
+
+    # Start in native fullscreen by default, then allow toggling to windowed mode.
+    display_screen, fullscreen = set_display_mode(True)
     internal_surface = pygame.Surface(VIRTUAL_RES)
     screen = internal_surface
 
@@ -381,7 +397,6 @@ def main():
     current_state = MAIN_MENU
     is_muted = False
     current_music = None
-    fullscreen = False
     level_up_pending = False
     card_menu = None
     game_info_state = None
@@ -461,7 +476,8 @@ def main():
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False
             elif event.type == pygame.VIDEORESIZE:
-                display_screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
+                if not fullscreen:
+                    display_screen = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
                 screen_rect = screen.get_rect()
                 CENTER = pygame.math.Vector2(screen_rect.center)
                 player.screen_rect = screen_rect
@@ -541,21 +557,12 @@ def main():
                                 current_state = DIRECTORY
                                 game_info_state = GameInfoState('DIRECTORY', screen_rect)
                             elif button["text"] == "TOGGLE FULLSCREEN":
-                                toggle_supported = True
-                                try:
-                                    toggle_result = pygame.display.toggle_fullscreen()
-                                    if toggle_result == 0:
-                                        toggle_supported = False
-                                except pygame.error:
-                                    toggle_supported = False
-
-                                if toggle_supported:
-                                    fullscreen = not fullscreen
-                                    display_screen = pygame.display.get_surface()
+                                if fullscreen:
+                                    window_width = min(1600, desktop_size[0])
+                                    window_height = min(900, desktop_size[1])
+                                    display_screen, fullscreen = set_display_mode(False, (window_width, window_height))
                                 else:
-                                    fullscreen = not fullscreen
-                                    mode_flags = pygame.FULLSCREEN if fullscreen else pygame.RESIZABLE
-                                    display_screen = pygame.display.set_mode((monitor_w, monitor_h), mode_flags)
+                                    display_screen, fullscreen = set_display_mode(True)
 
                                 screen_rect = screen.get_rect()
                                 CENTER = pygame.math.Vector2(screen_rect.center)
